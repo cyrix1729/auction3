@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Profile
+{% endblock title %}
+
+{% block content %}
+<h2>Profile Picture:  </h2>
+{%if user.image %}
+
+<img src = '{{ user.image.url }}' width = 100px>
+
+{% endif %}
+
+
+
+
+<h2>Username:  {{user}}</h2>
+<h2>Email:  {{user.email}}</h2>
+<h2>Date of Birth:  {{user.DOB}}</h2>
+
+
+<a href= '{% url 'editProfile' %}'>
+    <button class = 'ui button '>Edit Profile</button>
+</a>
+{% endblock content %}
