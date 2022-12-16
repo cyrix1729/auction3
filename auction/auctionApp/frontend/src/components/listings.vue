@@ -2,7 +2,7 @@
     <p class="bg-white text-white">///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</p>
     <div class="modal-body row border rounded bg-dark shadow p-2">
         <ul v-if="active" class="col-sm">
-            <h1 class="rounded bg-primary p-4">Listings</h1> 
+            <h1 class="rounded bg-primary p-4">Listings</h1>
             <p class= "rounded bg-light shadow text-info p-4 text-start"  v-for = "element in items.item">
                 <div class="d-flex flex-row">
                     <div class="p-2">
@@ -14,24 +14,24 @@
                         Started on: {{ getStartDate(element.start_time) }}<br>
                         Ending on: {{ getEndTime(element.end_time)}}<br>
                         Starting Price: £{{ element.start_price }}<br>
-                        Current Price: £{{ element.cur_price }} <br>  
+                        Current Price: £{{ element.cur_price }} <br>
                     </div>
                 </div>
                 <button class="btn btn-sm btn-success mt-3">
                     <router-link :to="{name: 'View Item', params: {itemId: element.id}}">SHOW ITEM</router-link>
                 </button>
             </p>
-        
-          
-        
+
+
+
             <div v-if="items.item.length <= 0">
                 <b class="bg-light">There is no listing related to {{searchData}}</b>
             </div>
-        </ul> 
+        </ul>
     </div>
 </template>
 
-  
+
 <script lang="ts">
 import Vue from 'vue';
     export default {
@@ -48,12 +48,12 @@ import Vue from 'vue';
 
 
 
-            
+
         },
         created(){
             this.fetchListings()
         },
-  
+
         methods: {
             getImage(item){
                return item.image.slice(1,-1)
@@ -69,8 +69,8 @@ import Vue from 'vue';
                 return (cal_date.concat(' at ',time))
             },
 
-            
-            
+
+
             async fetchListings(){
                 try{
                     let response = await fetch(`http://localhost:8000/api/listings/${this.searchData}`)
@@ -82,7 +82,7 @@ import Vue from 'vue';
                     catch(error){
                         console.log(error)
                     }
-  
+
             },
             displayItem (item_id : number){
                 this.itemToDisplay = item_id;
@@ -97,8 +97,8 @@ import Vue from 'vue';
         forceRerender() {
             this.componentKey += 1;
         },
-  
+
         },
       }
-  
+
   </script>

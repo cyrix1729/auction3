@@ -4,10 +4,9 @@ import os.path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
-SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__)) 
+SETTINGS_PATH = os.path.dirname(os.path.dirname(__file__))
 
 CORS_ALLOWED_ORIGINS = [
-    'http://127.0.0.1:5173',
     'http://localhost:5173',
 ]
 
@@ -21,7 +20,7 @@ DEBUG = True
 ALLOWED_HOSTS = []
 
 # Application definition
-CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5173','http://localhost:5173',]
+CSRF_TRUSTED_ORIGINS = ['http://localhost:5173']
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -32,7 +31,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "corsheaders",
     "auctionApp",
-    
+
 ]
 
 MIDDLEWARE = [
@@ -44,7 +43,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    
+
 ]
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
