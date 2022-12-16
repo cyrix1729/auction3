@@ -1,21 +1,21 @@
 <template>
-    <div>
+    <div class="text-dark border rounded bg-light">
         <h1>
             Edit Profile
         </h1>
         <form id="putProfile" action="">
             Username: 
-            <input required v-model= user.username  />
+            <input class="bg-light rounded shadow" required v-model= user.username  />
             <br>
             Email: 
-            <input type = 'email' required v-model= user.email  />
+            <input class="bg-light rounded shadow" type = 'email' required v-model= user.email  />
             <br>
             Date of Birth: 
-            <input type = 'Date' required v-model= user.DOB  />
+            <input class="bg-light rounded text-dark shadow" type = 'Date' required v-model= user.DOB  />
             <br>
             Profile Image: 
-            <input class="form-control" type="file" name="file" ref="post_image" accept="image/png, image/jpeg" @change="handleFileUpload( $event )"/>
-            <button class="btn btn-primary" @click="editData">Update</button>
+            <input class="form-control shadow" type="file" name="file" ref="post_image" accept="image/png, image/jpeg" @change="handleFileUpload( $event )"/>
+            <button class="btn btn-info shadow" @click="editData">Update</button>
         </form>
 
         

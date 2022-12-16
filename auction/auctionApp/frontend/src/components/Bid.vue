@@ -54,9 +54,10 @@
 
 <template>
   <header>
-    <div class="">
+    <div class="bg-light rounded shadow p-3">
+        <b>please enter your bid</b>
         <form id="postBid" action="">
-            <div class="form-group">
+            <div class="form-group shadow rounded">
                 <input class="form-control" type="number" name="bid" ref="post_bid" placeholder="10" required/>
             </div>
             <div class="form-group">
