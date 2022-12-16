@@ -25,7 +25,7 @@
 
 
             <div v-if="items.item.length <= 0">
-                <b class="bg-light">There is no listing related to {{searchData}}</b>
+                <b class="text-light">There is no listing related to {{searchData}}</b>
             </div>
         </ul>
     </div>

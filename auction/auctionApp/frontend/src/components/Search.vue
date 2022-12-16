@@ -29,7 +29,7 @@ export default {
 </script>
 
 <template>
-    <input class="bg-light" required placeholder= 'search' ref="searchField"/>
+    <input class="bg-light text-dark" required placeholder= 'search' ref="searchField"/>
     <button class="bg-info text-white" v-on:click="search">SEARCH</button>
     <listings v-bind:searchData="searchData" :key="componentKey"/>
 </template>
