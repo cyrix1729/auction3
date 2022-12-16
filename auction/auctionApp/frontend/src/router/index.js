@@ -1,24 +1,45 @@
-import Vue from 'vue'
-import VueRouter from  'vue-router'
-import Home from '../views/Home.vue'
-import Profile from '../views/Profile.vue'
+import Profile from '../components/Profile.vue'
+import Listing from '../components/Search.vue'
 import PostItem from '../components/postItem.vue'
+import EditProfile from '../components/editProfile.vue'
+import Item from '../components/getItem.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import { processExpression } from '@vue/compiler-core'
-
-Vue.use(VueRouter)
 
 const routes = [
     {
         path: "/makeListing",
         name: "Make Listing",
-        component: () => import('../components/postItem.vue')
+        component: PostItem
     },
+    {
+        path: "/profile",
+        name: "Profile",
+        component: Profile
+    },
+    {
+        path: "/editProfile",
+        name: "Edit Profile",
+        component: EditProfile
+    },
+    {
+        path: "/listings",
+        name: "Listings",
+        component: Listing
+    }, 
+    {
+        path: '/',
+        redirect: '/listings'
+    },
+    {
+        path: '/item/:itemId',
+        name: 'View Item',
+        component: Item,
+        props: true,
+    }
 ]
 
-const router = new VueRouter({
-    mode: 'history',
-    base: processExpression.env.BASE_URL,
+const router = new createRouter({
+    history: createWebHistory(import.meta.env.BASE_URL),
     routes
 })
 

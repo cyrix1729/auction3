@@ -1,4 +1,7 @@
 <script lang="ts">
+import Bid from './Bid.vue';
+import Question from './Question.vue';
+
 
     export default{
     props: ["itemId"],
@@ -35,6 +38,7 @@
     created() {
         this.getItem();
     },
+    components: { Question, Bid }
 }
 </script>
 
@@ -60,5 +64,7 @@
               </div>
             </div>
         </div>
+        <Question v-bind:itemId="itemId"/>
+        <Bid v-bind:itemId="itemId"/>
     </header>
   </template>

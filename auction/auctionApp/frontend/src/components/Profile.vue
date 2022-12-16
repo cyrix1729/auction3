@@ -6,7 +6,7 @@
         <div class="form-group">
        <button @click = 'logOut'>Log Out</button>
        <a href = '/editProfile'>
-        <button @click = 'editProfile'>Edit Profile</button>
+        <router-link to="editProfile">Edit Profile</router-link>
        </a>
        <br>
        <b>Profile Picture:</b> <br>

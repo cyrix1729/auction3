@@ -19,14 +19,13 @@ import { VueElement } from 'vue';
                 const form = document.getElementById('postItem');
                 const formData = new FormData(form as any);
                 formData.append('file', (this.file as any));
-
                 try {
                         const res = await fetch('http://localhost:8000/postItem', { 
                             method: "post",
                             body : formData,
                             'credentials': "include",
                         });
-
+                        console.log(formData);
                         if (!res.ok) {
                             const message = `An error has occured: ${res.status} - ${res.statusText}`;
                             throw new Error(message);
@@ -58,7 +57,7 @@ import { VueElement } from 'vue';
   <header>
     <div class="">
         <b>Item</b>
-        <form id="postItem" action="">
+        <form id="postItem">
             <div class="form-group">
                 <input class="form-control" type="text" name="name" ref="post_name" placeholder="name" required/>
             </div>
@@ -72,7 +71,7 @@ import { VueElement } from 'vue';
                 <input class="form-control" type="datetime-local" name="endTime" ref="post_endTime" required/>
             </div>
             <div class="form-group">
-                <input class="form-control" type="number" name="startPrice" ref="post_startPrice" placeholder="20" required/>
+                <input class="form-control" type="number" name="startPrice" ref="post_startPrice" required/>
             </div>
             <div class="form-group">
                 <input class="form-control" type="file" name="file" ref="post_image" accept="image/png, image/jpeg" @change="handleFileUpload( $event )" required/>

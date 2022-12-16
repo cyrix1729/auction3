@@ -4,7 +4,7 @@ from .views import user_api, listings_api
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('api/listings/', listings_api, name="listings api"),
+    path('api/listings/<str:searchData>', listings_api, name="listings api"),
     path('api/user', user_api),
     path('getUsersQuestions/<int:user_id>/', views.getUserQuestions, name='questions'),
     path('getQuestion/<int:itemId>', views.getQuestion, name='view question'),

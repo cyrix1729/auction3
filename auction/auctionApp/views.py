@@ -1,14 +1,17 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import JsonResponse
-from .models import Question
-from .models import Item
-from .models import User
+from django.db.models import Q
+from .models import *
 from django.core import serializers
 import json
 from django.shortcuts import get_object_or_404
 from django.http import Http404
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
+from django.http import HttpResponseBadRequest
+from django.utils.timezone import make_aware
+from datetime import datetime
+
 
 def index(request):
     return HttpResponse("LISTINGS PAGE GO HERE.")
@@ -181,9 +184,7 @@ def postItem(request):
         _end_time = make_aware(datetime.fromisoformat(request.POST.get('endTime')))
         _start_price = request.POST.get('startPrice')
 
-
-        _seller = User.objects.get(id = (int)(cur_user.id))
-
+        _seller = cur_user
         Item.objects.create(name = _name, desc = _desc,
             start_time = _start_time, end_time = _end_time, 
             start_price = _start_price, cur_price = _start_price,
@@ -208,11 +209,11 @@ def placeBid(request, item_id):
 
         data = {}
         currentTime = make_aware(datetime.now())
-        if (int)(_bid) > item.cur_price and item.end_time > currentTime and item.start_time < currentTime:
-            item.cur_price = _bid
+        if (int)(_bid) > item.cur_price and item.end_time > currentTime and item.start_time < currentTime and item.seller != cur_user:
+            bid = Bid.objects.create(bidder = User.objects.get(id = cur_user.id), value = _bid)
+            item.cur_price = bid.value
+            item.cur_bid = bid
             item.save()
-            Bid.objects.create(bidder = User.objects.get(id = cur_user.id), value = _bid,
-            item = Item.objects.get(id = item_id))
 
             data = {
                 'status' : 'bid placed'
@@ -230,7 +231,7 @@ def placeBid(request, item_id):
 ##########################################
 #End of Stuff by Steph
 ##########################################
-
+"""
 def listings_api(request) -> HttpResponse:
     itemData = Item.objects.all
     return JsonResponse({
@@ -238,10 +239,10 @@ def listings_api(request) -> HttpResponse:
             item.to_dict() for item in Item.objects.all()
         ]
     })
-
 """
-def listings_api(request, searchData) -> HttpResponse:
 
+def listings_api(request, searchData) -> HttpResponse:
+    cur_user = request.user
     item = Item.objects.all()
 
     if searchData != "-":
@@ -250,7 +251,7 @@ def listings_api(request, searchData) -> HttpResponse:
     items = []
     for i in item:
         j = i.to_dict()
-        j['seller'] = list(User.objects.filter(id = i.seller_id).values('id'))
+        j['isOwner'] = (cur_user == i.seller)
         items.append(j)
 
     data = {
@@ -258,4 +259,3 @@ def listings_api(request, searchData) -> HttpResponse:
     }
 
     return JsonResponse(data)
-"""
