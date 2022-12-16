@@ -54,6 +54,8 @@ class Item(models.Model):
     seller = models.ForeignKey(User, on_delete = models.CASCADE )
     #current highest bid
     cur_bid = models.ForeignKey(Bid, on_delete = models.CASCADE, blank = True, null = True)
+    #keep track of if winner has been informed
+    winner_informed = models.BooleanField(default=False)
 
 
 

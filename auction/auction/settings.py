@@ -142,4 +142,4 @@ EMAIL_HOST_USER = 'newdjangobay@gmail.com'
 EMAIL_HOST_PASSWORD = 'skcstlovwefjbvcb'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-#CRONJOBS = [('14,29,44,59 * * * *', 'cron.my_cron_job')]
+#CRONJOBS = [('* * * * *', 'auctionApp.cron.my_cron_job')]
