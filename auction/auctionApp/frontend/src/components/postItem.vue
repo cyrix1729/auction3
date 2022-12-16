@@ -21,7 +21,6 @@ import { VueElement } from 'vue';
                 formData.append('file', (this.file as any));
 
                 try {
-                    console.log("uwu")
                         const res = await fetch('http://localhost:8000/postItem', { 
                             method: "post",
                             body : formData,

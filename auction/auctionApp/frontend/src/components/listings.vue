@@ -3,8 +3,6 @@
     <div class="modal-body row border rounded bg-dark shadow p-4">
         <ul v-if="active" class="col-sm">
             <h1 class="rounded bg-primary shadow p-4">Listings</h1> 
-            <button class="bg-primary text-light"> Profile </button>
-            <input required placeholder= 'search' />
             <p class= "rounded bg-light shadow text-info p-4 text-left"  v-for = "element in items.item">
             <div>
             <h4 class="text-dark">{{ element.name }}</h4>

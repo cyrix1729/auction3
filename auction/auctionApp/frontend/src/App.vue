@@ -37,6 +37,7 @@ export default {
     }
 </script>
 <template>
+  <button class="bg-primary text-light"> Profile </button>
   <router-link to="/makeListing">Make A Listing</router-link>
   <input required placeholder= 'search' ref="searchField"/>
   <button v-on:click="search">SEARCH</button>

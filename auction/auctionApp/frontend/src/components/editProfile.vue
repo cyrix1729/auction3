@@ -3,7 +3,7 @@
         <h1>
             Edit Profile
         </h1>
-        <form @submit = 'editData' method="post">
+        <form id="putProfile" action="">
             Username: 
             <input required v-model= user.username  />
             <br>
@@ -14,8 +14,8 @@
             <input type = 'Date' required v-model= user.DOB  />
             <br>
             Profile Image: 
-            <input class="form-control" type="file" name="file" ref="post_image" accept="image/png, image/jpeg" @change="handleFileUpload( $event )" required/>
-            <input type="submit" value="Update" />
+            <input class="form-control" type="file" name="file" ref="post_image" accept="image/png, image/jpeg" @change="handleFileUpload( $event )"/>
+            <button class="btn btn-primary" @click="editData">Update</button>
         </form>
 
         
@@ -34,6 +34,7 @@ import VueAxios from 'vue-axios'
         data(){
             return {
                 user: [],
+                file: File
             }
         },
         created(){
@@ -44,23 +45,6 @@ import VueAxios from 'vue-axios'
             handleFileUpload(event : Event){
                 if (event.target != null){
                     this.file = (event.target as any).files[0];
-                }
-            },
-            async postItem() {
-                const form = document.getElementById('postItem');
-                const formData = new FormData(form as any);
-                formData.append('file', (this.file as any));
-                formData.append('seller', this.userId);
-                try {
-                    console.log("uwu")
-                        const res = await fetch('http://localhost:8000/postItem', { 
-                            method: "post",
-                            body : formData,
-                            'credentials': "include",
-                        });
-                    }
-                catch(e){
-                    console.log(e)
                 }
             },
 
@@ -80,6 +64,10 @@ import VueAxios from 'vue-axios'
                 return cookieValue;
     },
             async editData(e){
+                const form = document.getElementById('postImage');
+                const formData = new FormData(form as any);
+                formData.append('file', (this.file as any));
+
                 try{
                     e.preventDefault()   
                     let payload = {
@@ -87,15 +75,17 @@ import VueAxios from 'vue-axios'
                     email: this.user.email,
                     DOB: this.user.DOB,}
                     console.log(payload)
-                    let response = await fetch(`http://127.0.0.1:8000/api/user`, {
+
+                    let res = await fetch(`http://127.0.0.1:8000/api/user`, {
                     'credentials': "include",
                     method: 'PUT',
                     headers: {
-                    'Content-Type': 'application/json',
-                    "X-CSRFToken": this.getCookie("csrftoken"),
+                        "X-CSRFToken": this.getCookie("csrftoken"),
                     },
-                    body: JSON.stringify(payload)})
-                }
+                    body: formData,
+
+                })}
+
                 catch(error){
                         console.log(error)
                     }
