@@ -1,7 +1,7 @@
 <script lang="ts">
 import Bid from './Bid.vue';
 import Question from './Question.vue';
-
+import Vue from 'vue';
 
     export default{
     props: ["itemId"],
@@ -11,6 +11,7 @@ import Question from './Question.vue';
             getItemData: null,
             getUserData: null,
             image: null,
+            media: 'http://127.0.0.1:8000/media/',
         };
     },
     methods: {
@@ -47,6 +48,9 @@ import Question from './Question.vue';
       <div class="">
             <div v-if="getResult" class="alert alert-secondary mt-2" role="alert">
               <div class="row" v-for="item in getItemData">
+                <div class="p-2">
+                    <img :src= "media + item.image" width="100" height="100" class="rounded text-start">
+                </div>
                   <div class="col-sm-12 text-center">
                     <b>{{item.name}}</b>
                     <b>{{item.desc}}</b>

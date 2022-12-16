@@ -56,6 +56,7 @@ import Vue from 'vue';
 
         methods: {
             getImage(item){
+                console.log(item.image.slice(1,-1));
                return item.image.slice(1,-1)
             },
 

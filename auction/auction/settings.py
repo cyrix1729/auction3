@@ -24,6 +24,7 @@ ALLOWED_HOSTS = []
 CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:5173', 'http://localhost:5173']
 
 INSTALLED_APPS = [
+    "django_crontab",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -131,3 +132,14 @@ LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
 MEDIA_ROOT = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+SERVER_EMAIL = 'newdjangobay@gmail.com'
+DEFAULT_FROM_EMAIL = 'newdjangobay@gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'newdjangobay@gmail.com'
+EMAIL_HOST_PASSWORD = 'skcstlovwefjbvcb'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+#CRONJOBS = [('14,29,44,59 * * * *', 'cron.my_cron_job')]

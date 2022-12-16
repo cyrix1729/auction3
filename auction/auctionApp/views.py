@@ -11,7 +11,7 @@ from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.http import HttpResponseBadRequest
 from django.utils.timezone import make_aware
 from datetime import datetime
-
+from django.core.mail import send_mail
 
 def index(request):
     return HttpResponse("LISTINGS PAGE GO HERE.")
@@ -126,7 +126,7 @@ def getItem(request, item_id):
         item = Item.objects.filter(id = item_id)
 
         itemData = item.values('name', 'desc', 'start_time', 'end_time',
-            'start_price', 'cur_price')
+            'start_price', 'cur_price', 'image')
 
         data = {
             'item' : list(itemData),
