@@ -1,19 +1,22 @@
 
 <template>
-    <div class="modal-body row border rounded bg-dark shadow p-4">
+    <p class="bg-white text-white">///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</p>
+    <div class="modal-body row border rounded bg-dark shadow p-2">
         <ul v-if="active" class="col-sm">
-            <h1 class="rounded bg-primary shadow p-4">Listings</h1> 
-            <p class= "rounded bg-light shadow text-info p-4 text-left"  v-for = "element in items.item">
-            <div>
+            <h1 class="rounded bg-primary p-4">Listings</h1> 
+            <p class= "rounded bg-light shadow text-info p-4 text-start"  v-for = "element in items.item">
+            <div class="d-flex flex-row">
+            <div class="p-2">
+            <img :src= "media + getImage(element)" width="100" height="100" class="rounded text-start">
+            </div>
+            <div class="p-2">
             <h4 class="text-dark">{{ element.name }}</h4>
             Description: <i>{{ element.desc }}</i><br>
             Started on: {{ getStartDate(element.start_time) }}<br>
             Ending on: {{ getEndTime(element.end_time)}}<br>
             Starting Price: £{{ element.start_price }}<br>
-            Current Price: £{{ element.cur_price }} <br>
+            Current Price: £{{ element.cur_price }} <br>    
             </div>
-            <div>
-            <img :src= "media + getImage(element)" width="100" height="100" class="float-right">
             </div>
             <button class="btn btn-sm btn-success mt-3" v-on:click="displayItem(element.id, element.seller[0].id)">
                   SHOW ITEM
