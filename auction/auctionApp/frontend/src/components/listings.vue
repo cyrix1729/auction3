@@ -1,4 +1,6 @@
 <template>
+    <input class="bg-light text-dark" required placeholder= 'search' ref="searchField"/>
+    <button class="bg-info text-white" v-on:click="search">SEARCH</button>
     <p></p>
     <div>
         <ul v-if="active" class="col-sm">
@@ -35,7 +37,6 @@
 <script lang="ts">
 import Vue from 'vue';
     export default {
-        props: ['searchData'],
         data(){
             return {
                 items: [] ,
@@ -44,6 +45,7 @@ import Vue from 'vue';
                 showItem: false,
                 itemToDisplay: 0,
                 componentKey: 0,
+                searchData: '-',
             }
 
 
@@ -55,6 +57,15 @@ import Vue from 'vue';
         },
 
         methods: {
+            search(){
+                if (this.$refs.searchField.value.length > 0){
+                this.searchData = (this.$refs.searchField.value as string);
+            }
+            else{
+              this.searchData = '-';
+            }
+            this.fetchListings();
+            },
             getImage(item){
                 console.log(item.image.slice(1,-1));
                return item.image.slice(1,-1)

@@ -1,5 +1,5 @@
 import Profile from '../components/Profile.vue'
-import Listing from '../components/Search.vue'
+import Listing from '../components/listings.vue'
 import PostItem from '../components/postItem.vue'
 import EditProfile from '../components/editProfile.vue'
 import Item from '../components/getItem.vue'
