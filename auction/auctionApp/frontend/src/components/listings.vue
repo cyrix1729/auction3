@@ -1,6 +1,6 @@
 <template>
-    <p class="bg-white text-white">///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////</p>
-    <div class="modal-body row border rounded bg-dark shadow p-2">
+    <p></p>
+    <div>
         <ul v-if="active" class="col-sm">
             <h1 class="rounded bg-primary p-4">Listings</h1>
             <p class= "rounded bg-light shadow text-info p-4 text-start"  v-for = "element in items.item">
@@ -17,8 +17,8 @@
                         Current Price: £{{ element.cur_price }} <br>
                     </div>
                 </div>
-                <button class="btn btn-sm btn-success mt-3">
-                    <router-link :to="{name: 'View Item', params: {itemId: element.id}}">SHOW ITEM</router-link>
+                <button class="btn btn-sm btn-success mt-3 rounded bg-primary text-light p-2">
+                    <router-link style="text decoration: none; color: inherit;" :to="{name: 'View Item', params: {itemId: element.id}}">SHOW ITEM</router-link>
                 </button>
             </p>
 

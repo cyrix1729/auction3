@@ -15,6 +15,13 @@ import Vue from 'vue';
         };
     },
     methods: {
+
+        getDateTime(date){
+                let cal_date = date.slice(0, 10)
+                let time = date.slice(12, 16)
+                return (cal_date.concat(' at ',time))
+            },
+
         async getItem() {
             try {
                 const res = await fetch(`http://localhost:8000/getItem/${this.itemId}`, { method: "get", "credentials": "include", });
@@ -51,13 +58,13 @@ import Vue from 'vue';
                 <div class="p-2">
                     <img :src= "media + item.image" width="100" height="100" class="rounded text-start">
                 </div>
-                  <div class="col-sm-12 text-center">
-                    <b>{{item.name}}</b>
-                    <b>{{item.desc}}</b>
-                    <b>{{item.start_time}}</b>
-                    <b>{{item.end_time}}</b>
-                    <b>{{item.start_price}}</b>
-                    <b>{{item.cur_price}}</b>
+                <div class="col-sm-12 text-center text-dark">
+                  <p>Item: {{item.name}}</p>
+                  <p>Description: {{item.desc}}</p>
+                  <p>Starting at: {{getDateTime(item.start_time)}}</p>
+                  <p>Ending at: {{getDateTime(item.end_time)}}</p>
+                  <p>Starting bid: £{{item.start_price}}</p>
+                  <p>Current bid: £{{item.cur_price}}</p>
                   </div>
               </div>
               <div class="row" v-for="user in getUserData">
