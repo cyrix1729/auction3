@@ -1,3 +1,8 @@
+
+<!-- Fetches all the listings on the system, with attributes related to that item -->
+
+
+
 <template>
     <input class="bg-light text-dark" required placeholder= 'search' ref="searchField"/>
     <button class="bg-info text-white" v-on:click="search">SEARCH</button>

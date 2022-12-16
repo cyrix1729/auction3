@@ -73,7 +73,7 @@ def login_view(request):
             if request.GET.get('next'):
                 return redirect(request.GET.get('next'))
             else:
-                return redirect('http://127.0.0.1:5173/')
+                return redirect('http://localhost:5173/')
         else:
             error_message = 'Incorrect Password and/or Username.'
     return render(request, 'login.html', {'form': form, 'error_message': error_message})

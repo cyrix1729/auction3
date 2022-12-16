@@ -1,3 +1,4 @@
+<!-- Gets all the questions about a given item and then contains the answer and post question vues. -->
 <script lang="ts">
 import Answer from './Answer.vue';
 import PostQuestion from './postQuestion.vue';

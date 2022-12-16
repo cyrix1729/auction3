@@ -1,3 +1,6 @@
+
+<!-- Lets the user update their User profile by updating their usernmae, email, DOB and Profile Image -->
+
 <template>
     <div class="text-dark border rounded bg-light">
         <h1>
@@ -5,17 +8,17 @@
         </h1>
         <form id="putProfile" action="">
             Username: 
-            <input class="bg-light rounded shadow" required v-model= user.username  />
+            <input required v-model= user.username name = 'username' />
             <br>
             Email: 
-            <input class="bg-light rounded shadow" type = 'email' required v-model= user.email  />
+            <input type = 'email' required v-model= user.email name = 'email' />
             <br>
             Date of Birth: 
-            <input class="bg-light rounded text-dark shadow" type = 'Date' required v-model= user.DOB  />
+            <input type = 'Date' required v-model= user.DOB name = 'DOB' />
             <br>
             Profile Image: 
-            <input class="form-control shadow" type="file" name="file" ref="post_image" accept="image/png, image/jpeg" @change="handleFileUpload( $event )"/>
-            <button class="btn btn-info shadow" @click="editData">Update</button>
+            <input class="form-control" type="file" name="file" ref="post_image" accept="image/png, image/jpeg" @change="handleFileUpload( $event )"/>
+            <button class="btn btn-primary" @click="editData">Update</button>
         </form>
 
         
@@ -27,14 +30,13 @@
 
 <script lang="ts">
 import Vue from 'vue'  
-import axios from 'axios'
-import VueAxios from 'vue-axios'
 
     export default {
         data(){
             return {
                 user: [],
-                file: File
+                // Profile Imaage
+                file: File,
             }
         },
         created(){
@@ -48,6 +50,7 @@ import VueAxios from 'vue-axios'
                 }
             },
 
+            // Fetches cookie
             getCookie(ck) {
                 let cookieValue = null;
                 if (document.cookie && document.cookie !== "") {
@@ -62,43 +65,47 @@ import VueAxios from 'vue-axios'
                     }
                 }
                 return cookieValue;
-    },
+            },
+            // Sends Put request to update user data
             async editData(e){
-                const form = document.getElementById('postImage');
-                const formData = new FormData(form as any);
-                formData.append('file', (this.file as any));
+                // const form = document.getElementById('putProfile');
+                // const formData = new FormData(form as any);
+                // formData.append('file', (this.file as any));
 
                 try{
                     e.preventDefault()   
                     let payload = {
                     username: this.user.username,
                     email: this.user.email,
-                    DOB: this.user.DOB,}
+                    DOB: this.user.DOB,
+                }
                     console.log(payload)
 
-                    let res = await fetch(`http://127.0.0.1:8000/api/user`, {
+                    let res = await fetch(`http://localhost:8000/api/user`, {
                     'credentials': "include",
                     method: 'PUT',
                     headers: {
                         "X-CSRFToken": this.getCookie("csrftoken"),
+                        'Content-Type': 'application/json'
                     },
-                    body: formData,
-
-                })}
-
+                    body: JSON.stringify(payload)
+                    });
+                    alert('Saved')
+                }
                 catch(error){
                         console.log(error)
                     }
             
             },
 
+            //Fetches user data and puts it in user[]
             async fetchUser(){
                 try{
-                    let response = await fetch('http://127.0.0.1:8000/api/user',{
+                    let response = await fetch('http://localhost:8000/api/user',{
                     'credentials': "include",})
                     let data = await response.json()
                     this.user = data.cur_user_data
-                    
+                    console.log(this.user);
                 }
                     catch(error){
                         console.log(error)

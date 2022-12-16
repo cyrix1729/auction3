@@ -1,3 +1,4 @@
+<!-- Lets the user submit an answer to a question  sending the question Id, the answer and the user credentials -->
 <template>
     <header>
       <div class="">

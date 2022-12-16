@@ -11,6 +11,8 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
 
+
+CSRF_COOKIE_SECURE = True
 CORS_ALLOW_CREDENTIALS = True
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-6neq52l=s9!*i0ugbazd5l+gnazpp%sai9o($(6advzaj__#ln"
@@ -142,4 +144,4 @@ EMAIL_HOST_USER = 'newdjangobay@gmail.com'
 EMAIL_HOST_PASSWORD = 'skcstlovwefjbvcb'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-#CRONJOBS = [('* * * * *', 'auctionApp.cron.my_cron_job')]
+CRONJOBS = [('* * * * *', 'auctionApp.cron.my_cron_job')]

@@ -1,3 +1,4 @@
+<!-- Lets the user post a question about a given item -->
 <script lang="ts">
     export default {
         props: ['itemId'],

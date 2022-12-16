@@ -1,3 +1,4 @@
+<!-- Lets the user place a bid on an item  by sending the users credentials and the value of their bid -->
 <script lang="ts">
     export default {
         props: ['itemId'],
@@ -58,7 +59,7 @@
         <b>please enter your bid</b>
         <form id="postBid" action="">
             <div class="form-group shadow rounded">
-                <input class="form-control" type="number" name="bid" ref="post_bid" placeholder="10" required/>
+                <input class="form-control" type="number" step=".01" name="bid" ref="post_bid" placeholder="10" required/>
             </div>
             <div class="form-group">
                 <button class="btn btn-primary" @click="postBid">SUBMIT BID</button>

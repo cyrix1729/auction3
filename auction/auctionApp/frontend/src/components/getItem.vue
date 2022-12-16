@@ -1,3 +1,4 @@
+<!-- Gets the full details about an item(name, description, start/end time, image, current bid, starting price) and then includes the questions/answers vue as well as the bid vue -->
 <script lang="ts">
 import Bid from './Bid.vue';
 import Question from './Question.vue';
@@ -15,13 +16,14 @@ import Vue from 'vue';
         };
     },
     methods: {
-
+        //fetches data attribute and cleans it to be in 'date at time' format
         getDateTime(date){
                 let cal_date = date.slice(0, 10)
                 let time = date.slice(12, 16)
                 return (cal_date.concat(' at ',time))
             },
 
+        //Fetches all fields from item
         async getItem() {
             try {
                 const res = await fetch(`http://localhost:8000/getItem/${this.itemId}`, { method: "get", "credentials": "include", });
@@ -43,6 +45,7 @@ import Vue from 'vue';
             }
         },
     },
+    //lifecycle hook vue. Calls getItem() (fetches all data on item) on creation
     created() {
         this.getItem();
     },

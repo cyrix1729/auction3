@@ -16,22 +16,33 @@ from django.core.mail import send_mail
 def index(request):
     return HttpResponse("LISTINGS PAGE GO HERE.")
 
+
+# Defines all user-api methods
+    # Updating User information with 'PUT'
+    # Fetching all User information with 'GET'
 def user_api(request):
     #updating user information
     if request.method == 'PUT': 
-        json_data = json.loads(request.body)
+        print('put is reached')
+        print(request.user.id)
         cur_user = request.user
-        #update username
-        cur_user.username = json_data['username']
-        #update email
-        cur_user.email = json_data['email']
-        #update Date of birth
-        cur_user.DOB = json_data['DOB']
-        cur_user.save()
-        
-        return HttpResponse('Updated')
+        if cur_user.is_anonymous:
+            print('user is anon')
+            return HttpResponse('Not logged in')
+        else:
+            json_data = json.loads(request.body)
+            print('HERE', request.body)
+            cur_user = request.user
+            #update username
+            cur_user.username = json_data['username']
+            #update email
+            cur_user.email = json_data['email']
+            #update Date of birth
+            cur_user.DOB = json_data['DOB']
+            cur_user.save()
     
     if request.method == 'GET':
+        
         cur_user = request.user
         if cur_user.is_anonymous:
             return JsonResponse({
@@ -41,11 +52,15 @@ def user_api(request):
             return JsonResponse({
                 'cur_user_data' : cur_user.to_dict()
                 })
+    return JsonResponse({
+        'cur_user_data' : 'user updated'
+    })
                
 ##########################################
 #Stuff By Steph
 ##########################################
 
+#Gets and returns all the questions about a given item
 def getQuestion(request, itemId):
     if request.method == "GET":
         cur_user = request.user
@@ -64,6 +79,8 @@ def getQuestion(request, itemId):
         return JsonResponse(data)
     return HttpResponseBadRequest('Invalid request')
 
+
+#Gets and returns all the questions from a user
 def getUserQuestions(request):
     if request.method == "GET":
         cur_user = request.user
@@ -78,6 +95,8 @@ def getUserQuestions(request):
         return JsonResponse(data)
     return HttpResponseBadRequest('Invalid request')
     
+
+#Gets the questions asked to the user about the items they are currently selling
 def getQuestionsAskedToUser(request):
     if request.method == "GET":
         cur_user = request.user
@@ -107,20 +126,8 @@ def getQuestionsAskedToUser(request):
         return JsonResponse(data)
     return HttpResponseBadRequest('Invalid request')
 
-def getItemQuestions(request, item_id):
-    if request.method == "GET":
-        _item = Item.objects.get(id = item_id)
-        
-        questionData = Question.object.filter(item = _item).values()
-        
-        data = {
-            'questions' : list(questionData)
-        }
 
-        return JsonResponse(data)
-    return HttpResponseBadRequest('Invalid request')
-
-
+# Gets all data about a specific item
 def getItem(request, item_id):
     if request.method == "GET":
         item = Item.objects.filter(id = item_id)
@@ -138,94 +145,116 @@ def getItem(request, item_id):
         return JsonResponse(data)
     return HttpResponseBadRequest('Invalid request')
 
+
+#Posts a new question on a given item
 @csrf_exempt
 def postQuestion(request, item_id):
-    if request.method == "POST":
-        cur_user = request.user
-        postData = json.loads(request.body.decode("utf-8"))
-        print("posting question to database")
-        _asker = User.objects.get(id = request.user.id)
-        _item = Item.objects.get(id = item_id)
-        _question = postData.get('question', None)
+    cur_user = request.user
+    if not cur_user.is_anonymous:
+        if request.method == "POST":
+            postData = json.loads(request.body.decode("utf-8"))
+            print("posting question to database")
+            _asker = User.objects.get(id = request.user.id)
+            _item = Item.objects.get(id = item_id)
+            _question = postData.get('question', None)
 
-        Question.objects.create(question = _question, asker = _asker, item = _item)
-        response = JsonResponse({'status' : 'question posted'})
+            Question.objects.create(question = _question, asker = _asker, item = _item)
+            response = JsonResponse({'status' : 'question posted'})
 
-        return response
+            return response
+    else:
+        return JsonResponse({'cur_user_data' : 'not logged in'})
     return HttpResponseBadRequest('Invalid request')
 
 
+# Posts a new answer on a given question
 @csrf_exempt
 def postAnswer(request, question_id):
-    if request.method == "POST":
-        question = Question.objects.get(id = question_id)
-        postData = json.loads(request.body.decode("utf-8"))
+    cur_user = request.user
+    if not cur_user.is_anonymous:
+        if request.method == "POST":
+            question = Question.objects.get(id = question_id)
+            postData = json.loads(request.body.decode("utf-8"))
 
-        _answer = postData.get('answer')
+            _answer = postData.get('answer')
 
-        question.answer = _answer
-        question.save()
+            question.answer = _answer
+            question.save()
 
-        data = {
-            'updated' : True
-        }
+            data = {
+                'updated' : True
+            }
 
-        return JsonResponse(data)
+            return JsonResponse(data)
+    else:
+        return JsonResponse({'cur_user_data' : 'not logged in'})
     return HttpResponseBadRequest('Invalid request')
 
+
+# Posts a new item
 @csrf_exempt
 def postItem(request):
-    if request.method == "POST":
-        cur_user = request.user
-        _image = request.FILES.get('file')
-        _name = request.POST.get('name')
-        _desc = request.POST.get('desc')
-        _start_time = make_aware(datetime.fromisoformat(request.POST.get('startTime')))
-        _end_time = make_aware(datetime.fromisoformat(request.POST.get('endTime')))
-        _start_price = request.POST.get('startPrice')
+    cur_user = request.user
+    if not cur_user.is_anonymous:
+        if request.method == "POST":
+            _image = request.FILES.get('file')
+            _name = request.POST.get('name')
+            _desc = request.POST.get('desc')
+            _start_time = make_aware(datetime.fromisoformat(request.POST.get('startTime')))
+            _end_time = make_aware(datetime.fromisoformat(request.POST.get('endTime')))
+            _start_price = request.POST.get('startPrice')
 
-        _seller = cur_user
-        Item.objects.create(name = _name, desc = _desc,
-            start_time = _start_time, end_time = _end_time, 
-            start_price = _start_price, cur_price = _start_price,
-            image = _image, seller = _seller)
+            _seller = cur_user
+            Item.objects.create(name = _name, desc = _desc,
+                start_time = _start_time, end_time = _end_time, 
+                start_price = _start_price, cur_price = _start_price,
+                image = _image, seller = _seller)
 
-        data = {
-            'status' : 'item added'
-        }
+            data = {
+                'status' : 'item added'
+            }
 
-        return JsonResponse(data)
+            return JsonResponse(data)
+    else:
+        return JsonResponse({'cur_user_data' : 'not logged in'})
     return HttpResponseBadRequest('Invalid request')
 
+
+# Places a bid on an existing item
 @csrf_exempt
 def placeBid(request, item_id):
-    if request.method == "POST":
-        cur_user = request.user
-        item = Item.objects.get(id = item_id)
+    cur_user = request.user
+    if not cur_user.is_anonymous:
+        if request.method == "POST":
+            cur_user = request.user
+            item = Item.objects.get(id = item_id)
 
-        postData = json.loads(request.body.decode("utf-8"))
+            postData = json.loads(request.body.decode("utf-8"))
 
-        _bid = postData.get('bid')
+            _bid = postData.get('bid')
 
-        data = {}
-        currentTime = make_aware(datetime.now())
-        if (int)(_bid) > item.cur_price and item.end_time > currentTime and item.start_time < currentTime and item.seller != cur_user:
-            bid = Bid.objects.create(bidder = User.objects.get(id = cur_user.id), value = _bid)
-            item.cur_price = bid.value
-            item.cur_bid = bid
-            item.save()
+            data = {}
+            currentTime = make_aware(datetime.now())
+            print((float)(_bid) > (float)(item.cur_price))
+            if (float)(_bid) > (float)(item.cur_price) and item.end_time > currentTime and item.start_time < currentTime and item.seller != cur_user:
+                bid = Bid.objects.create(bidder = User.objects.get(id = cur_user.id), value = _bid)
+                item.cur_price = bid.value
+                item.cur_bid = bid
+                item.save()
 
-            data = {
-                'status' : 'bid placed'
-            }
-        else:
-            data = {
-                'status' : 'ivalid bid'
-            }
+                data = {
+                    'status' : 'bid placed'
+                }
+            else:
+                data = {
+                    'status' : 'ivalid bid'
+                }
 
-        print((str)(data))
+            print((str)(data))
 
-        return JsonResponse(data)
+            return JsonResponse(data)
+    else:
+        return JsonResponse({'cur_user_data' : 'not logged in'})
     return HttpResponseBadRequest('Invalid request')
 
 ##########################################

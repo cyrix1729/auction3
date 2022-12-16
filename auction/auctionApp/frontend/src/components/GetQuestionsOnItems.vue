@@ -1,3 +1,4 @@
+<!-- Gets all questions asked about a given item -->
 <script lang="ts">
 import Answer from './Answer.vue';
 import GetItem from './getItem.vue';
@@ -9,6 +10,7 @@ import GetItem from './getItem.vue';
         };
     },
     methods: {
+
         async getQuestionsAskedToUser() {
             try {
                 const res = await fetch(`http://localhost:8000/getQuestionsAskedToUser/${this.userId}`, { method: "get",
@@ -43,7 +45,6 @@ import GetItem from './getItem.vue';
         <div v-if="getResult" class="alert alert-secondary mt-2" role="alert">
             <div class="row" v-for="item in getResult">
                 <div class="col-sm-12 text-center">
-                    <GetItem :itemId="item.itemId" :showFullData="false"/>
                     <div class="row" v-for="question in item.question">
                         <b class = "w-25 p-3">{{ question.question}}</b>
                     </div>
