@@ -59,24 +59,29 @@ def home_view(request):
 
 
 def login_view(request):
-    error_message = None
-    form = AuthenticationForm()
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        user = authenticate(username = username, password=password)
-        if user is not None:
-            login(request, user)
-            
-            # csrf_token = django.middleware.csrf.get_token(request)
-            
-            if request.GET.get('next'):
-                return redirect(request.GET.get('next'))
+    cur_user = request.user
+    print('test')
+    if cur_user.is_anonymous:
+        error_message = None
+        form = AuthenticationForm()
+        if request.method == 'POST':
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(username = username, password=password)
+            if user is not None:
+                login(request, user)
+                
+                # csrf_token = django.middleware.csrf.get_token(request)
+                
+                if request.GET.get('next'):
+                    return redirect(request.GET.get('next'))
+                else:
+                    return redirect('http://localhost:5173/')
             else:
-                return redirect('http://localhost:5173/')
-        else:
-            error_message = 'Incorrect Password and/or Username.'
-    return render(request, 'login.html', {'form': form, 'error_message': error_message})
+                error_message = 'Incorrect Password and/or Username.'
+        return render(request, 'login.html', {'form': form, 'error_message': error_message})
+    else:
+        return redirect('http://localhost:5173/')
 
 ###########################################################
 
