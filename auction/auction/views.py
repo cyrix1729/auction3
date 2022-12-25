@@ -81,7 +81,7 @@ def login_view(request):
                 error_message = 'Incorrect Password and/or Username.'
         return render(request, 'login.html', {'form': form, 'error_message': error_message})
     else:
-        return redirect('http://localhost:5173/')
+        return redirect('http://localhost:5173/listings')
 
 ###########################################################
 
